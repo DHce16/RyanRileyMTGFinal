@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_search">
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.ryanrileyfinalproject.view.fragments.SearchFragment">
+        <!-- action needs ->
+            id -> where it starts to where it ends
+             destination -> end point
+             -->
+        <action
+            android:id="@+id/action_nav_search_to_nav_list"
+            app:destination="@id/nav_booster_list"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_booster_list"
+        android:name="com.example.ryanrileyfinalproject.view.fragments.BoosterListFragment">
+
+        <action
+            android:id="@+id/nav_list_to_nav_details"
+            app:destination="@id/nav_booster"/>
+        <!--   newInstance(id: String) -->
+        <argument
+            android:name="input"
+            app:argType="string"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_booster"
+        android:name="com.example.ryanrileyfinalproject.view.fragments.BoosterDrawFragment">
+        <action
+            android:id="@+id/nav_closed_pack_to_open"
+            app:destination="@id/nav_drawn_cards"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_drawn_cards"
+        android:name="com.example.ryanrileyfinalproject.view.fragments.DrawnCardsFragment">
+        <action
+            android:id="@+id/nav_to_card_details"
+            app:destination="@id/nav_card_details"/>
+        <argument
+            android:name="input"
+            app:argType="string"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_card_details"
+        android:name="com.example.ryanrileyfinalproject.view.fragments.CardDetailsFragment">
+    </fragment>
+
+</navigation>
