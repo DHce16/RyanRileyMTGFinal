@@ -29,7 +29,7 @@ class SearchFragment: Fragment() {
 //        viewModel.setLoadingState()
 
         findNavController().navigate(
-            SearchFragmentDirections.actionNavSearchToNavList(
+            SearchFragmentDirections.actionNavSearchToBoosterList(
                 "sets"// CharSequence -> String
             )
         )
