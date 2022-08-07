@@ -77,4 +77,6 @@ class CardViewModel @Inject constructor(
             }
         }
     }
+
+    fun setLoadingState() { _cardList.value = UIState.Loading }
 }

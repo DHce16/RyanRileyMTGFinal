@@ -7,5 +7,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 open class ViewModelFragment: Fragment() {
+
     protected val viewModel: CardViewModel by activityViewModels()
 }

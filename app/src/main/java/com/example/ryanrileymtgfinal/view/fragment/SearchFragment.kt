@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.ryanrileymtgfinal.databinding.FragmentSearchBinding
 
 class SearchFragment: Fragment() {
@@ -24,7 +25,18 @@ class SearchFragment: Fragment() {
         return binding.root
     }
 
-    fun getBoosters() {
+    private fun getBoosters() {
+//        viewModel.setLoadingState()
 
+        findNavController().navigate(
+            SearchFragmentDirections.actionNavSearchToNavList(
+                "sets"// CharSequence -> String
+            )
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
