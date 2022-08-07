@@ -3,6 +3,7 @@ package com.example.ryanrileyfinalproject.api
 import com.example.ryanrileyfinalproject.model.UIState
 import io.magicthegathering.kotlinsdk.api.MtgSetApiClient
 import io.magicthegathering.kotlinsdk.model.card.MtgCard
+import io.magicthegathering.kotlinsdk.model.set.MtgSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -19,11 +20,10 @@ class CardRepositoryImpl @Inject constructor(private val cards: Cards) : CardRep
     override suspend fun getCardList(set: String): Flow<UIState> =
         flow {
             try {
-                // uses MTG SDK
+                // uses MTG SDK to get cards from the booster
                 val setCode: String = "mm2"
 
-                val cardsResponse: Response<List<MtgCard>> =
-                    MtgSetApiClient.generateBoosterPackBySetCode(setCode)
+                val cardsResponse: Response<List<MtgCard>> = MtgSetApiClient.generateBoosterPackBySetCode(setCode)
                 if (cardsResponse.isSuccessful) {
                     val cards = cardsResponse.body()
                     emit(cards?.let {
@@ -42,8 +42,21 @@ class CardRepositoryImpl @Inject constructor(private val cards: Cards) : CardRep
         TODO("Not yet implemented")
     }
 
-    override suspend fun getBoosterList(booster: String): Flow<UIState> {
-        TODO("Not yet implemented")
+    override suspend fun getBoosterList(booster: String): Flow<UIState> =
+        flow {
+            try {
+                val setsResponse: Response<List<MtgSet>> = MtgSetApiClient.getAllSets()
+                if (setsResponse.isSuccessful) {
+                    val sets = setsResponse.body()
+                    emit(sets?.let {
+                        UIState.Success(it)
+                    } ?: throw Exception("Null Response"))
+                } else {
+                    throw Exception("Failed network call")
+                }
+            }catch (e: Exception) {
+                emit(UIState.Error(e))
+            }
     }
 
     override suspend fun getBoosterDetails(boosterSelected: Int): Flow<UIState> {

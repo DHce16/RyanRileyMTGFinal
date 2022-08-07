@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/booster_list_item.xml" value="0.1279011099899092" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1279011099899092" />
       </map>
     </option>
   </component>
