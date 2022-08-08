@@ -54,9 +54,9 @@ class CardViewModel @Inject constructor(
         }
     }
 
-    fun getBoosterList(booster: String){
+    fun getBoosterList(booster: String, offset: Int){
         viewModelScope.launch {
-            repository.getBoosterList(booster).collect{
+            repository.getBoosterList(booster, offset).collect{
                 _boosterList.postValue(it)
             }
         }

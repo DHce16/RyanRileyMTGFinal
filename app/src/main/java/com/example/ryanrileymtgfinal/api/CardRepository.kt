@@ -12,7 +12,7 @@ import javax.inject.Inject
 interface CardRepository{
     suspend fun getCardList(set: String): Flow<UIState>
     suspend fun getCardDetails(card: Int): Flow<UIState>
-    suspend fun getBoosterList(booster: String): Flow<UIState>
+    suspend fun getBoosterList(booster: String, offset: Int): Flow<UIState>
     suspend fun getBoosterDetails(boosterSelected: Int): Flow<UIState>
 }
 
@@ -21,9 +21,7 @@ class CardRepositoryImpl @Inject constructor(private val cards: Cards) : CardRep
         flow {
             try {
                 // uses MTG SDK to get cards from the booster
-                val setCode: String = "mm2"
-
-                val cardsResponse: Response<List<MtgCard>> = MtgSetApiClient.generateBoosterPackBySetCode(setCode)
+                val cardsResponse = cards.getBoosterList()
                 if (cardsResponse.isSuccessful) {
                     val cards = cardsResponse.body()
                     emit(cards?.let {
@@ -42,7 +40,7 @@ class CardRepositoryImpl @Inject constructor(private val cards: Cards) : CardRep
         TODO("Not yet implemented")
     }
 
-    override suspend fun getBoosterList(booster: String): Flow<UIState> =
+    override suspend fun getBoosterList(booster: String, offset: Int): Flow<UIState> =
         flow {
             try {
                 val setsResponse: Response<List<MtgSet>> = MtgSetApiClient.getAllSets()

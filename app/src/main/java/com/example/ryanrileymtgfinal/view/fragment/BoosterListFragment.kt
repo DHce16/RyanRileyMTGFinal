@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ryanrileyfinalproject.api.Cards
 import com.example.ryanrileyfinalproject.model.UIState
 import com.example.ryanrileymtgfinal.databinding.FragmentBoosterListBinding
+import com.example.ryanrileymtgfinal.model.BoosterData
 import com.example.ryanrileymtgfinal.model.BoosterResponse
 import com.example.ryanrileymtgfinal.view.controller.BoosterListPageAdapter
 
@@ -18,6 +22,9 @@ class BoosterListFragment: ViewModelFragment() {
 
     private lateinit var boosterListPageAdapter: BoosterListPageAdapter
 
+    private val args: BoosterListFragmentArgs by navArgs()
+    private var currentOffset = 0
+    private var shouldUpdateList = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +50,7 @@ class BoosterListFragment: ViewModelFragment() {
                     }
                 }
                 is UIState.Loading -> {
-                    viewModel.getBoosterList(booster = String())
+                    viewModel.getBoosterList(args.input, offset = currentOffset)
                 }
             }
         }
@@ -57,10 +64,10 @@ class BoosterListFragment: ViewModelFragment() {
                 // Setting the adapter once
                 if (!shouldUpdateList) {
                     boosterListPageAdapter =
-                        AnimeListPageAdapter(openAnimeDetails = ::openAnimeDetails)
-                    adapter = animeListPageAdapter
+                        BoosterListPageAdapter(openBoosterDetails = ::openBoosterDetails)
+                    adapter = boosterListPageAdapter
                 }
-                animeListPageAdapter.setAnimeList(
+                boosterListPageAdapter.setBoosterList(
                     response.data,
                     shouldUpdateList
                 )
@@ -73,20 +80,24 @@ class BoosterListFragment: ViewModelFragment() {
                         super.onScrolled(recyclerView, dx, dy)
                         if (!rvAnimeList.canScrollVertically(1)) {
                             shouldUpdateList = true
-                            viewModel.getAnimeList(
-                                q = args.input,
-                                currentOffset + CrunchyRoll.NUMBER_OF_ITEMS
+                            viewModel.getBoosterList(
+                                booster = args.input,
+                                currentOffset + Cards.NUMBER_OF_ITEMS
                             )
                             Toast.makeText(
                                 context,
                                 "Loading more Boosters",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            currentOffset += CrunchyRoll.NUMBER_OF_ITEMS
+                            currentOffset += Cards.NUMBER_OF_ITEMS
                         }
                     }
                 })
             }
         }
+    }
+
+    private fun openBoosterDetails(node: BoosterData) {
+
     }
 }
