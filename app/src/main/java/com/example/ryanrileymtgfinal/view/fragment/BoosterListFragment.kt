@@ -22,7 +22,7 @@ class BoosterListFragment: ViewModelFragment() {
 
     private lateinit var boosterListPageAdapter: BoosterListPageAdapter
 
-    private val args: BoosterListFragmentArgs by navArgs()
+    private val args = "sets"
     private var currentOffset = 0
     private var shouldUpdateList = false
 
@@ -50,7 +50,7 @@ class BoosterListFragment: ViewModelFragment() {
                     }
                 }
                 is UIState.Loading -> {
-                    viewModel.getBoosterList(args.input, offset = currentOffset)
+                    viewModel.getBoosterList(args, offset = currentOffset)
                 }
             }
         }
@@ -81,7 +81,7 @@ class BoosterListFragment: ViewModelFragment() {
                         if (!rvAnimeList.canScrollVertically(1)) {
                             shouldUpdateList = true
                             viewModel.getBoosterList(
-                                booster = args.input,
+                                booster = args,
                                 currentOffset + Cards.NUMBER_OF_ITEMS
                             )
                             Toast.makeText(
